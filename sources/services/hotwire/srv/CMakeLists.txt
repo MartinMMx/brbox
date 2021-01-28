@@ -12,9 +12,11 @@ project(${COMPONENT_NAME})
 set(AUTO_SVN_VERSION    ON CACHE BOOL ON)  #by default include svn revision numbers
 set(INSTALL_MY_HEADERS  ON CACHE BOOL ON)  #by default install header files to target-install-directory
 set(STARTUP_SCRIPT MplaySrvStartupScr) #HotwireStartupScr)         #server startup script
+set(MPLAYER_SCRIPTS *.sh)
 #set(STARTUP_SCRIPT_ALIAS S71GpioCtl)          #todo: automate numbering of startup scripts
 set(STARTNUM "75" CACHE STRING "75")       #init order number of the service
 file(GLOB SOURCES "src/*.cpp")
+file(GLOB MPLAYER_SCRIPT_FILES ${MPLAYER_SCRIPTS})
 add_executable(${COMPONENT_NAME} ${SOURCES})
 set(INC_ADSTTNG  "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib/lib-settings/include")
 set(INC_ADCOMMN  "${CMAKE_CURRENT_SOURCE_DIR}/../../../lib/lib-adav-old/include")
@@ -31,6 +33,7 @@ target_link_libraries(${COMPONENT_NAME} ${LIB_ADCOMMN} ${LIB_ADSTTNG} json-c pth
 file(GLOB  INCFILES "${INC_SRVCOMMN}/*.*")
 install(TARGETS ${COMPONENT_NAME} DESTINATION bin)
 install(PROGRAMS ${STARTUP_SCRIPT} DESTINATION etc/init.d) #copy server's startup script to init.d
+install(PROGRAMS ${MPLAYER_SCRIPT_FILES} DESTINATION bin/)
 if(${INSTALL_MY_HEADERS})
 	install(FILES ${INCFILES} DESTINATION include)
 endif()

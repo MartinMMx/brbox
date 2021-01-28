@@ -30,6 +30,7 @@ ROOTFS_TYPE_WDB="BrBoxRtWdb"
 BOARD_TYPE_BTR="baytrail"                 #base-build
 BOARD_TYPE_BTR_MEDIA="baytrail-media"     #multimedia-application-build
 BOARD_TYPE_RP0="raspi0"                   #base-build
+BOARD_TYPE_RP0_MEDIA="raspi0-media"       #raspi0-media-player(video-looper)
 BOARD_TYPE_RP1="raspi1"                   #base-build
 BOARD_TYPE_RP1_SMSW="raspi1-smartsw"      #relayswitch-application-build
 BOARD_TYPE_RP1_RBOX="raspi1-rbox"         #remote-box-application-build
@@ -40,7 +41,8 @@ BOARD_TYPE_BBB="bbb"                      #base-build
 BOARD_TYPE_BBBMMC="bbbmmc"                #base-build
 BOARD_TYPE_BBBMMC_RBOX="bbbmmc-rbox"      #remote-box-application-build
 BOARD_TYPE_WDB="wandboard"                #base-build
-BOARD_TYPE_RP3_64="raspi3-64"                #base-build
+BOARD_TYPE_RP3_64="raspi3-64"             #base-build
+BOARD_TYPE_RP3_64_ASTERISK="raspi3-64-asterisk"    #base-build
 BOARD_TYPE_RP3_QT5WE="raspi3-qt5we"
 BOARD_TYPE_PC_X86_EFI="pc-x86-64-efi"
 
@@ -63,6 +65,10 @@ if [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP0" ]; then
 	BR_BOARD_CONFIG=raspberrypi0_defconfig
 	BR_BOARD_LINUX_CONFIG_PATH=board/raspberrypi/
 	BOOT_IMG_SCRIPT=$(pwd)/scripts/raspi-bootdisk.sh
+elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP0_MEDIA" ]; then
+	BR_BOARD_CONFIG=raspberrypi0_defconfig
+	BR_BOARD_LINUX_CONFIG_PATH=board/raspberrypi/
+	BOOT_IMG_SCRIPT=$(pwd)/scripts/raspi0-media-bootdisk.sh
 elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP1" ]; then
 	BR_BOARD_CONFIG=raspberrypi_defconfig
 	BR_BOARD_LINUX_CONFIG_PATH=board/raspberrypi/
@@ -88,6 +94,10 @@ elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP3" ]; then
 	BR_BOARD_LINUX_CONFIG_PATH=board/raspberrypi3/
 	BOOT_IMG_SCRIPT=$(pwd)/scripts/raspi-bootdisk.sh
 elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP3_64" ]; then
+	BR_BOARD_CONFIG=raspberrypi3_64_defconfig
+	BR_BOARD_LINUX_CONFIG_PATH=board/raspberrypi3-64/
+	BOOT_IMG_SCRIPT=$(pwd)/scripts/raspi3-bootdisk.sh
+elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP3_64_ASTERISK" ]; then
 	BR_BOARD_CONFIG=raspberrypi3_64_defconfig
 	BR_BOARD_LINUX_CONFIG_PATH=board/raspberrypi3-64/
 	BOOT_IMG_SCRIPT=$(pwd)/scripts/raspi3-bootdisk.sh
@@ -157,6 +167,9 @@ fi
 if [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP0" ]; then
 	./scripts/sudo-grub2-bootdisk.sh $BOOT_IMG_SCRIPT $BR_OUTPUT_FOLDER $BUILDNUMBER $BR_OUTPUT_FOLDER/images/$BOOTABLE_USB_IMG $SUDOPW
 	ROOTFS_TYPE=$ROOTFS_TYPE_RP1
+elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP0_MEDIA" ]; then
+	./scripts/sudo-grub2-bootdisk.sh $BOOT_IMG_SCRIPT $BR_OUTPUT_FOLDER $BUILDNUMBER $BR_OUTPUT_FOLDER/images/"$BR_BOARD_SYSTEM_CONFIG.img" $SUDOPW
+	ROOTFS_TYPE=$ROOTFS_TYPE_RP1
 elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP1" ]; then
 	./scripts/sudo-grub2-bootdisk.sh $BOOT_IMG_SCRIPT $BR_OUTPUT_FOLDER $BUILDNUMBER $BR_OUTPUT_FOLDER/images/$BOOTABLE_USB_IMG $SUDOPW
 	ROOTFS_TYPE=$ROOTFS_TYPE_RP1
@@ -176,6 +189,9 @@ elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP3" ]; then
 	./scripts/sudo-grub2-bootdisk.sh $BOOT_IMG_SCRIPT $BR_OUTPUT_FOLDER $BUILDNUMBER $BR_OUTPUT_FOLDER/images/$BOOTABLE_USB_IMG $SUDOPW
 	ROOTFS_TYPE=$ROOTFS_TYPE_RP3
 elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP3_64" ]; then
+	./scripts/sudo-grub2-bootdisk.sh $BOOT_IMG_SCRIPT $BR_OUTPUT_FOLDER $BUILDNUMBER $BR_OUTPUT_FOLDER/images/$BOOTABLE_USB_IMG $SUDOPW
+	ROOTFS_TYPE=$ROOTFS_TYPE_RP3
+elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP3_64_ASTERISK" ]; then
 	./scripts/sudo-grub2-bootdisk.sh $BOOT_IMG_SCRIPT $BR_OUTPUT_FOLDER $BUILDNUMBER $BR_OUTPUT_FOLDER/images/$BOOTABLE_USB_IMG $SUDOPW
 	ROOTFS_TYPE=$ROOTFS_TYPE_RP3
 elif [ $BR_BOARD_SYSTEM_CONFIG = "$BOARD_TYPE_RP3_QT5WE" ]; then

@@ -47,6 +47,9 @@ source "package/brbox/brbox_hellovideo/Config.in"
 source "package/brbox/brbox_postbootup/Config.in"
 source "package/brbox/brbox_preparebootdisk/Config.in"
 source "package/brbox/brbox_gphoto2/Config.in"
+source "package/brbox/brbox_fim/Config.in"
+source "package/brbox/brbox_flircutil/Config.in"
+source "package/brbox/brbox_actkbd/Config.in"
 endmenu
 endif
 
@@ -75,4 +78,5 @@ source "package/brbox/brbox_modbussrv/Config.in"
 source "package/brbox/brbox_gstd/Config.in"
 source "package/brbox/brbox_nrtp/Config.in"
 source "package/brbox/brbox_gstdstartup/Config.in"
+source "package/brbox/brbox_chandongle/Config.in"
 endmenu
